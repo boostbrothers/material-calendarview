@@ -38,4 +38,8 @@ import org.threeten.bp.DayOfWeek;
     this.dayOfWeek = dayOfWeek;
     setText(formatter.format(dayOfWeek));
   }
+
+  public DayOfWeek getDayOfWeek() {
+    return dayOfWeek;
+  }
 }

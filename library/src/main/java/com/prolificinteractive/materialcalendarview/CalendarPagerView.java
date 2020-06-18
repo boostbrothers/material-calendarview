@@ -118,6 +118,18 @@ abstract class CalendarPagerView extends ViewGroup
     }
   }
 
+  public void setWeekDayTextAppearance(int weekdayResourceId, int saturdayResourceId, int sundayResourceId) {
+    for (WeekDayView weekDayView : weekDayViews) {
+      if (weekDayView.getDayOfWeek() == DayOfWeek.SUNDAY) {
+        weekDayView.setTextAppearance(getContext(), sundayResourceId);
+      } else if (weekDayView.getDayOfWeek() == DayOfWeek.SATURDAY) {
+        weekDayView.setTextAppearance(getContext(), saturdayResourceId);
+      } else {
+        weekDayView.setTextAppearance(getContext(), weekdayResourceId);
+      }
+    }
+  }
+
   public void setDateTextAppearance(int taId) {
     for (DayView dayView : dayViews) {
       dayView.setTextAppearance(getContext(), taId);

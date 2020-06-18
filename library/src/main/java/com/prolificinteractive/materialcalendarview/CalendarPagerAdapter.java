@@ -29,6 +29,8 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
   private Integer color = null;
   private Integer dateTextAppearance = null;
   private Integer weekDayTextAppearance = null;
+  private Integer saturdayTextAppearance = null;
+  private Integer sundayTextAppearance = null;
   @ShowOtherDates
   private int showOtherDates = MaterialCalendarView.SHOW_DEFAULTS;
   private CalendarDay minDate = null;
@@ -85,6 +87,8 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
     newAdapter.color = color;
     newAdapter.dateTextAppearance = dateTextAppearance;
     newAdapter.weekDayTextAppearance = weekDayTextAppearance;
+    newAdapter.saturdayTextAppearance = saturdayTextAppearance;
+    newAdapter.sundayTextAppearance = sundayTextAppearance;
     newAdapter.showOtherDates = showOtherDates;
     newAdapter.minDate = minDate;
     newAdapter.maxDate = maxDate;
@@ -153,8 +157,11 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
     if (dateTextAppearance != null) {
       pagerView.setDateTextAppearance(dateTextAppearance);
     }
-    if (weekDayTextAppearance != null) {
+    if (weekDayTextAppearance != null && saturdayTextAppearance == null && sundayTextAppearance == null) {
       pagerView.setWeekDayTextAppearance(weekDayTextAppearance);
+    }
+    if (weekDayTextAppearance != null && saturdayTextAppearance != null && sundayTextAppearance != null) {
+        pagerView.setWeekDayTextAppearance(weekDayTextAppearance, saturdayTextAppearance, sundayTextAppearance);
     }
     pagerView.setShowOtherDates(showOtherDates);
     pagerView.setMinimumDate(minDate);
@@ -259,6 +266,18 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
     this.weekDayTextAppearance = taId;
     for (V pagerView : currentViews) {
       pagerView.setWeekDayTextAppearance(taId);
+    }
+  }
+
+  public void setWeekDayTextAppearance(int weekdayResourceId, int saturdayResourceId, int sundayResourceId) {
+    if (weekdayResourceId == 0 || saturdayResourceId == 0 || sundayResourceId == 0) {
+      return;
+    }
+    this.weekDayTextAppearance = weekdayResourceId;
+    this.saturdayTextAppearance = saturdayResourceId;
+    this.sundayTextAppearance = sundayResourceId;
+    for (V pagerView : currentViews) {
+        pagerView.setWeekDayTextAppearance(weekdayResourceId, saturdayResourceId, sundayResourceId);
     }
   }
 
@@ -374,5 +393,13 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
 
   protected int getWeekDayTextAppearance() {
     return weekDayTextAppearance == null ? 0 : weekDayTextAppearance;
+  }
+
+  public int getSaturdayTextAppearance() {
+    return saturdayTextAppearance == null ? 0 : saturdayTextAppearance;
+  }
+
+  public int getSundayTextAppearance() {
+    return sundayTextAppearance == null ? 0 : sundayTextAppearance;
   }
 }

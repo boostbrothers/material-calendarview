@@ -382,6 +382,16 @@ public class MaterialCalendarView extends ViewGroup {
           R.styleable.MaterialCalendarView_mcv_weekDayTextAppearance,
           R.style.TextAppearance_MaterialCalendarWidget_WeekDay
       ));
+      setWeekDayTextAppearance(a.getResourceId(
+              R.styleable.MaterialCalendarView_mcv_weekDayTextAppearance,
+              R.style.TextAppearance_MaterialCalendarWidget_WeekDay
+      ), a.getResourceId(
+              R.styleable.MaterialCalendarView_mcv_saturdayTextAppearance,
+              R.style.TextAppearance_MaterialCalendarWidget_WeekDay
+      ), a.getResourceId(
+              R.styleable.MaterialCalendarView_mcv_sundayTextAppearance,
+              R.style.TextAppearance_MaterialCalendarWidget_WeekDay
+      ));
       setDateTextAppearance(a.getResourceId(
           R.styleable.MaterialCalendarView_mcv_dateTextAppearance,
           R.style.TextAppearance_MaterialCalendarWidget_Date
@@ -413,7 +423,11 @@ public class MaterialCalendarView extends ViewGroup {
       MonthView monthView = new MonthView(this, currentMonth, getFirstDayOfWeek(), true);
       monthView.setSelectionColor(getSelectionColor());
       monthView.setDateTextAppearance(adapter.getDateTextAppearance());
-      monthView.setWeekDayTextAppearance(adapter.getWeekDayTextAppearance());
+      if (adapter.getSaturdayTextAppearance() != 0 && adapter.getSundayTextAppearance() !=0) {
+        monthView.setWeekDayTextAppearance(adapter.getWeekDayTextAppearance(), adapter.getSaturdayTextAppearance(), adapter.getSundayTextAppearance());
+      } else{
+        monthView.setWeekDayTextAppearance(adapter.getWeekDayTextAppearance());
+      }
       monthView.setShowOtherDates(getShowOtherDates());
       addView(monthView, new LayoutParams(calendarMode.visibleWeeksCount + DAY_NAMES_ROW));
     }
@@ -748,6 +762,16 @@ public class MaterialCalendarView extends ViewGroup {
    */
   public void setWeekDayTextAppearance(int resourceId) {
     adapter.setWeekDayTextAppearance(resourceId);
+  }
+
+
+  /**
+   * @param weekdayResourceId The text appearance resource id.
+   * @param saturdayResourceId The text appearance resource id.
+   * @param sundayResourceId The text appearance resource id.
+   */
+  public void setWeekDayTextAppearance(int weekdayResourceId, int saturdayResourceId, int sundayResourceId) {
+    adapter.setWeekDayTextAppearance(weekdayResourceId, saturdayResourceId,sundayResourceId);
   }
 
   /**
