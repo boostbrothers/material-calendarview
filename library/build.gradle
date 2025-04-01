@@ -8,9 +8,6 @@ android {
   defaultConfig {
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-
-    versionCode 1
-    versionName "1.0.0"
   }
 
   lintOptions {
@@ -20,6 +17,10 @@ android {
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
     targetCompatibility JavaVersion.VERSION_17
+  }
+
+  publishing {
+    singleVariant("release")
   }
 }
 
@@ -64,10 +65,10 @@ afterEvaluate {
   publishing {
     publications {
       release(MavenPublication) {
-        from components.findByName('release')
+        from components.release
         groupId = 'com.github.boostbrothers'
         artifactId = 'material-calendarview'
-        version = "1.0.0"
+        version = "1.0.1"
       }
     }
   }
