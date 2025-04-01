@@ -1,18 +1,16 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 
 android {
+  namespace = "com.github.boostbrothers.material_calendarview"
   compileSdkVersion rootProject.ext.compileSdkVersion
 
   defaultConfig {
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
 
-    versionCode Integer.parseInt(project.VERSION_CODE)
-    versionName project.VERSION_NAME
-
-    vectorDrawables.useSupportLibrary = true
+    versionCode 1
+    versionName "1.0.0"
   }
 
   lintOptions {
@@ -20,8 +18,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
 }
 
@@ -58,6 +56,19 @@ android.libraryVariants.all { variant ->
     options {
       links "http://docs.oracle.com/javase/7/docs/api/"
       linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
+    }
+  }
+}
+
+afterEvaluate {
+  publishing {
+    publications {
+      release(MavenPublication) {
+        from components.findByName('release')
+        groupId = 'com.github.boostbrothers'
+        artifactId = 'material-calendarview'
+        version = "1.0.0"
+      }
     }
   }
 }
